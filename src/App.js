@@ -1,26 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
+
+import { Container, Col, Row, Jumbotron, Table } from 'react-bootstrap';
+
+import { getNewBoardAndSolve } from './sudokuMachine/sudokuSolver';
+import Board from './components/board';
 import './App.css';
 
-function App() {
+const boardDef = [
+  [3, 0, 6, 5, 0, 8, 4, 0, 0],
+  [5, 2, 0, 0, 0, 0, 0, 0, 0],
+  [0, 8, 7, 0, 0, 0, 0, 3, 1],
+  [0, 0, 3, 0, 1, 0, 0, 8, 0],
+  [9, 0, 0, 8, 6, 3, 0, 0, 5],
+  [0, 5, 0, 0, 9, 0, 6, 0, 0],
+  [1, 3, 0, 0, 0, 0, 2, 5, 0],
+  [0, 0, 0, 0, 0, 0, 0, 7, 4],
+  [0, 0, 5, 2, 0, 6, 3, 0, 0]
+];
+
+const App = () => {
+  const [board, setBoard] = useState(boardDef);
+  const [count, setCount] = useState(0);
+
+  const renderBoard = (board) => {
+    return <Board board={board} />;
+  };
+
+  const testboardrerender = (row, col) => {
+    let newBoard = [...board];
+    newBoard[row][col] += 1;
+    setBoard(newBoard);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className='App'>
+      <Row className='header'>
+        <Col xl={4}>Github Profile/Repo</Col>
+        <Col xl={4}>Sudoku Solver Title</Col>
+        <Col xl={4}>Put astupid emoji here</Col>
+      </Row>
+      <Row className='board'>
+        <Col>
+          <Jumbotron>{renderBoard(board)}</Jumbotron>
+          <button onClick={() => testboardrerender(0, 0)}>
+            hihihihihihihihihihih
+          </button>
+        </Col>
+      </Row>
+      <Row className='buttons'>
+        <Col>New Board</Col>
+        <Col>Reset</Col>
+        <Col>Solve</Col>
+        <Col>Backtrack</Col>
+      </Row>
+      <Row className='buttons'>
+        <Col>Backtrack</Col>
+        <Col>Undo</Col>
+      </Row>
+      <Row className='footer'>
+        <Col>
+          <Jumbotron>footer</Jumbotron>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
 
 export default App;
