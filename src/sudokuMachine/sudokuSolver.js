@@ -1,19 +1,33 @@
-import { getNewSudokuBoard, getSolutionOfSudokuBoard } from './sudokuApi';
+import {
+  getNewSudokuBoardPromise,
+  getSolutionOfSudokuBoardPromise,
+  getNewSudokuBoard,
+  getSolutionOfSudokuBoard
+} from './sudokuApi';
 
-export const getNewBoardAndSolve = () => {
-  return getNewSudokuBoard()
+export const getNewBoardAndSolvePromise = () => {
+  return getNewSudokuBoardPromise()
     .then((board) => {
-      return getSolutionOfSudokuBoard(board).then((solution) => {
+      return getSolutionOfSudokuBoardPromise(board).then((solution) => {
         return solve(board, solution, JSON.parse(JSON.stringify(board)));
       });
     })
     .then((all) => {
-      console.log(all);
+      //console.log(all);
       return all;
     })
     .catch(function(error) {
       console.log(error);
     });
+};
+
+export const getNewBoardAndSolveAsync = async () => {
+  let board = await getNewSudokuBoard();
+  let ogBoard = JSON.parse(JSON.stringify(board));
+  let solution = await getSolutionOfSudokuBoard(board);
+  let result = solve(board, solution, ogBoard);
+  console.log(result);
+  return result;
 };
 
 export const solve = (board, solution, ogBoard) => {

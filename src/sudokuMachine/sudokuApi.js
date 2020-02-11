@@ -26,7 +26,7 @@ const encodeParams = (params) =>
     .join('&');
 
 //Calls sudoku api to generate a new board
-export const getNewSudokuBoard = () => {
+export const getNewSudokuBoardPromise = () => {
   return axios
     .get(sudokuApiUrl.newBoard)
     .then((response) => {
@@ -37,7 +37,7 @@ export const getNewSudokuBoard = () => {
     });
 };
 
-export const getSolutionOfSudokuBoard = (board) => {
+export const getSolutionOfSudokuBoardPromise = (board) => {
   return axios
     .post(
       sudokuApiUrl.solveBoard,
@@ -50,4 +50,20 @@ export const getSolutionOfSudokuBoard = (board) => {
     .catch(function(error) {
       console.log(error);
     });
+};
+
+//Calls sudoku api to generate a new board
+export const getNewSudokuBoard = async () => {
+  let newBoardRes = await axios.get(sudokuApiUrl.newBoard);
+  let board = newBoardRes.data.board;
+  return board;
+};
+
+export const getSolutionOfSudokuBoard = async (board) => {
+  let solvedBoardRes = await axios.post(
+    sudokuApiUrl.solveBoard,
+    encodeParams({ board: board }),
+    headersForSolution
+  );
+  return solvedBoardRes.data.solution;
 };

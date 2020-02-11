@@ -4,7 +4,7 @@ import { Container, Col, Row, Jumbotron, Table } from 'react-bootstrap';
 
 import Board from './components/board';
 import './App.css';
-import { getNewBoardAndSolve } from './sudokuMachine/sudokuSolver';
+import { getNewBoardAndSolveAsync } from './sudokuMachine/sudokuSolver';
 import {
   getNewSudokuBoard,
   getSolutionOfSudokuBoard
@@ -23,17 +23,14 @@ const boardDef = [
 ];
 
 const App = () => {
-  const [board, setBoard] = useState(boardDef);
-  const [count, setCount] = useState(0);
-
-  const renderBoard = (board) => {
-    return <Board board={board} />;
+  const renderBoard = () => {
+    return <Board />;
   };
 
   const testboardrerender = (row, col) => {
-    let newBoard = [...board];
-    newBoard[row][col] += 1;
-    setBoard(newBoard);
+    //let newBoard = [...board];
+    //ewBoard[row][col] += 1;
+    //setBoard(newBoard);
   };
 
   return (
@@ -45,11 +42,10 @@ const App = () => {
       </Row>
       <Row className='board'>
         <Col>
-          {renderBoard(board)}
+          {renderBoard()}
           <button onClick={() => testboardrerender(0, 0)}>
             hihihihihihihihihihih
           </button>
-          <button onClick={() => getNewBoardAndSolve()}>get got</button>
         </Col>
       </Row>
       <Row className='buttons'>
