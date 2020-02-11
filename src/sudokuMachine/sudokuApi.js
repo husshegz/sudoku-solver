@@ -25,18 +25,29 @@ const encodeParams = (params) =>
     .map((key) => key + `= %5B${encodeBoard(params[key])}%5D`)
     .join('&');
 
-export const getNewSudokuBoard = async () => {
-  //Generate the new board
-  let newBoardRes = await axios.get(sudokuApiUrl.newBoard);
-  let board = newBoardRes.data.board;
-  return board;
+//Calls sudoku api to generate a new board
+export const getNewSudokuBoard = () => {
+  return axios
+    .get(sudokuApiUrl.newBoard)
+    .then((response) => {
+      return response.data.board;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 };
 
-export const getSolutionOfSudokuBoard = async (board) => {
-  let solvedBoardRes = await axios.post(
-    sudokuApiUrl.solveBoard,
-    encodeParams({ board: board }),
-    headersForSolution
-  );
-  return solvedBoardRes.data.solution;
+export const getSolutionOfSudokuBoard = (board) => {
+  return axios
+    .post(
+      sudokuApiUrl.solveBoard,
+      encodeParams({ board: board }),
+      headersForSolution
+    )
+    .then((response) => {
+      return response.data.solution;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 };

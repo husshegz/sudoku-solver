@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 
 import { Container, Col, Row, Jumbotron, Table } from 'react-bootstrap';
 
-import { getNewBoardAndSolve } from './sudokuMachine/sudokuSolver';
 import Board from './components/board';
 import './App.css';
+import { getNewBoardAndSolve } from './sudokuMachine/sudokuSolver';
+import {
+  getNewSudokuBoard,
+  getSolutionOfSudokuBoard
+} from './sudokuMachine/sudokuApi';
 
 const boardDef = [
   [3, 0, 6, 5, 0, 8, 4, 0, 0],
@@ -42,10 +45,11 @@ const App = () => {
       </Row>
       <Row className='board'>
         <Col>
-          <Jumbotron>{renderBoard(board)}</Jumbotron>
+          {renderBoard(board)}
           <button onClick={() => testboardrerender(0, 0)}>
             hihihihihihihihihihih
           </button>
+          <button onClick={() => getNewBoardAndSolve()}>get got</button>
         </Col>
       </Row>
       <Row className='buttons'>

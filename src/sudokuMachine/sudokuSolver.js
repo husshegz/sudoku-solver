@@ -1,20 +1,28 @@
 import { getNewSudokuBoard, getSolutionOfSudokuBoard } from './sudokuApi';
 
-export const getNewBoardAndSolve = async () => {
-  const board = await getNewSudokuBoard();
-  const ogBoard = JSON.parse(JSON.stringify(board));
-  const solution = await getSolutionOfSudokuBoard(board);
-  const resultOfSolve = await solve(board, solution, ogBoard);
-  console.log(resultOfSolve);
-  return resultOfSolve;
+export const getNewBoardAndSolve = () => {
+  return getNewSudokuBoard()
+    .then((board) => {
+      return getSolutionOfSudokuBoard(board).then((solution) => {
+        return solve(board, solution, JSON.parse(JSON.stringify(board)));
+      });
+    })
+    .then((all) => {
+      console.log(all);
+      return all;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 };
 
-export const solve = async (board, solution, ogBoard) => {
+export const solve = (board, solution, ogBoard) => {
   const changesArray = [];
   const done = canSolveSudokuFromCell(board, 0, 0, changesArray);
   const isSolutionCorrect = equal(done.board, solution);
   return {
     isSolved: done.isSolved,
+    solution: solution,
     board: done.board,
     changesArraySolved: done.changesArraySolved,
     isSolutionCorrect: isSolutionCorrect,
@@ -34,6 +42,7 @@ const canPlaceValue = (board, rowToPlace, colToPlace, numToPlace) => {
         colToPlace +
         '] with :' +
         row[colToPlace];
+      message.toString();
       return false;
     }
     rowError = rowError + 1;
@@ -49,6 +58,7 @@ const canPlaceValue = (board, rowToPlace, colToPlace, numToPlace) => {
         i +
         '] with: ' +
         board[rowToPlace][i];
+      message.toString();
       return false;
     }
   }
@@ -67,6 +77,7 @@ const canPlaceValue = (board, rowToPlace, colToPlace, numToPlace) => {
           (boxCols + c) +
           '] with value : ' +
           board[boxRows + r][boxCols + c];
+        message.toString();
         return false;
       }
     }
