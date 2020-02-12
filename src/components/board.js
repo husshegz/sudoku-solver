@@ -121,7 +121,7 @@ const Board = () => {
           borderColor: '#black'
         }}
       >
-        {board.length
+        {board && board.length
           ? board.map((row, rowIndex) => {
               return renderRow(row, rowIndex);
             })

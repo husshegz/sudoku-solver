@@ -32,9 +32,23 @@ const handleBackTrackBoard = () => {
   };
 };
 
+const handleSolveInstantly = () => {
+  return {
+    type: types.SOLVE_INSTANTLY
+  };
+};
+
+const handleValidateSolutionBoard = () => {
+  return {
+    type: types.VALIDATE_SOLUTION
+  };
+};
+
 export {
   handleUpdateCell,
   handleNewBoard,
   handleResetBoard,
-  handleBackTrackBoard
+  handleBackTrackBoard,
+  handleSolveInstantly,
+  handleValidateSolutionBoard
 };
