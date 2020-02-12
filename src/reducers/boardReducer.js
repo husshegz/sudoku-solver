@@ -25,7 +25,7 @@ const sanitizeUserInputandTable = (board, payload) => {
   return newBoard;
 };
 
-const sanitizeNewBoardstate = (payload) => {
+const sanitizeNewBoardState = (payload) => {
   let newOgBoard = JSON.parse(JSON.stringify(payload.result.ogBoard));
 
   return {
@@ -35,6 +35,16 @@ const sanitizeNewBoardstate = (payload) => {
     isSolutionCorrect: payload.result.isSolutionCorrect,
     solution: payload.result.solution,
     isSolved: payload.result.isSolved
+  };
+};
+
+const sanitizeResetBoardState = (ogBoard) => {
+  let newOgBoard = INITIAL_STATE.ogBoard;
+  if (ogBoard.length) {
+    newOgBoard = JSON.parse(JSON.stringify(ogBoard));
+  }
+  return {
+    board: newOgBoard
   };
 };
 
@@ -48,7 +58,16 @@ const boardReducer = (state = INITIAL_STATE, action) => {
     case types.NEW_BOARD:
       return {
         ...state,
-        ...sanitizeNewBoardstate(action.payload)
+        ...sanitizeNewBoardState(action.payload)
+      };
+    case types.RESET_BOARD:
+      return {
+        ...state,
+        ...sanitizeResetBoardState(state.ogBoard)
+      };
+    case types.BACKTRACK_BOARD:
+      return {
+        ...state
       };
     default:
       return {

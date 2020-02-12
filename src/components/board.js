@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   input: {
     width: '100%',
     height: '100%',
-    padding: '1px',
+    padding: 0,
     color: 'blue',
     textAlign: 'center',
     border: 'none',
@@ -23,19 +23,19 @@ const useStyles = makeStyles({
       fontWeight: 'bold',
       fontSize: '1.2em',
       color: 'black'
-    },
-    '&&&:before': {
-      borderBottom: 'none'
-    },
-    '&&:after': {
-      borderBottom: 'none'
     }
   },
   cell: {
     borderStyle: 'solid',
     borderWidth: 0.5,
     borderColor: 'black',
-    padding: 0
+    padding: 0,
+    '&&&:focus': {
+      borderStyle: 'solid',
+      borderWidth: 0.5,
+      borderColor: 'black',
+      padding: 0
+    }
   },
   cellThird: {
     borderStyle: 'solid',
@@ -44,7 +44,16 @@ const useStyles = makeStyles({
     borderRightStyle: 'solid',
     borderRightWidth: 4,
     borderRightColor: 'black',
-    padding: 0
+    padding: 0,
+    '&&&:focus': {
+      borderStyle: 'solid',
+      borderWidth: 0.5,
+      borderColor: 'black',
+      borderRightStyle: 'solid',
+      borderRightWidth: 4,
+      borderRightColor: 'black',
+      padding: 0
+    }
   },
   rowThird: {
     borderStyle: 'solid',
@@ -104,14 +113,19 @@ const Board = () => {
   return (
     <>
       <p>Click on the boxes to solve</p>
-      <Table responsive='xl' className={classes.table}>
-        <tbody>
-          {board.length
-            ? board.map((row, rowIndex) => {
-                return renderRow(row, rowIndex);
-              })
-            : 'getnesssssswboard'}
-        </tbody>
+      <Table
+        responsive='xl'
+        style={{
+          borderStyle: 'solid',
+          borderWidth: 4,
+          borderColor: '#black'
+        }}
+      >
+        {board.length
+          ? board.map((row, rowIndex) => {
+              return renderRow(row, rowIndex);
+            })
+          : 'getnesssssswboard'}
       </Table>
     </>
   );

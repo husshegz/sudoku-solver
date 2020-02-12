@@ -130,7 +130,7 @@ const canSolveSudokuFromCell = (
     const numToPlace = value;
     if (canPlaceValue(board, row, col, numToPlace)) {
       board[row][col] = numToPlace;
-      let changeObject = { row: row, col: col, numToPlace: numToPlace };
+      let changeObject = { rowIndex: row, cellIndex: col, value: numToPlace };
       changesArray.push(changeObject);
       if (canSolveSudokuFromCell(board, row, col + 1, changesArray).isSolved) {
         return {

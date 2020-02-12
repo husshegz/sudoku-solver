@@ -20,4 +20,21 @@ const handleNewBoard = (result) => {
   };
 };
 
-export { handleUpdateCell, handleNewBoard };
+const handleResetBoard = () => {
+  return {
+    type: types.RESET_BOARD
+  };
+};
+
+const handleBackTrackBoard = () => {
+  return {
+    type: types.BACKTRACK_BOARD
+  };
+};
+
+export {
+  handleUpdateCell,
+  handleNewBoard,
+  handleResetBoard,
+  handleBackTrackBoard
+};

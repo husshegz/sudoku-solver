@@ -3,15 +3,13 @@ import React from 'react';
 import { Container, Col, Row, Jumbotron } from 'react-bootstrap';
 
 import Board from './components/board';
+import Buttons from './components/buttons';
 import './App.css';
 import { getNewBoardAndSolveAsync } from './sudokuMachine/sudokuSolver';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleNewBoard } from './actions';
 
 const App = () => {
-  const reducer = useSelector((state) => ({
-    ...state.boardReducer
-  }));
   const dispatch = useDispatch();
 
   const makeRequest = async () => {
@@ -22,11 +20,8 @@ const App = () => {
   const renderBoard = () => {
     return <Board />;
   };
-
-  const testboardrerender = (row, col) => {
-    //let newBoard = [...board];
-    //ewBoard[row][col] += 1;
-    //setBoard(newBoard);
+  const renderButtons = () => {
+    return <Buttons />;
   };
 
   return (
@@ -37,21 +32,9 @@ const App = () => {
         <Col xl={4}>Put astupid emoji here</Col>
       </Row>
       <Row className='board'>
-        <Col>
-          {renderBoard()}
-          <button onClick={() => testboardrerender(0, 0)}>
-            hihihihihihihihihihih
-          </button>
-        </Col>
+        <Col>{renderBoard()}</Col>
       </Row>
-      <Row className='buttons'>
-        <Col>
-          <button onClick={async () => await makeRequest()}>newBoard</button>
-        </Col>
-        <Col>Reset</Col>
-        <Col>Solve</Col>
-        <Col>Backtrack</Col>
-      </Row>
+      <Row className='buttons'>{renderButtons()}</Row>
       <Row className='buttons'>
         <Col>Backtrack</Col>
         <Col>Undo</Col>
