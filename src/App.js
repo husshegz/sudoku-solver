@@ -1,39 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Container, Col, Row, Jumbotron, Table } from 'react-bootstrap';
+import { Container, Col, Row, Jumbotron } from 'react-bootstrap';
 
 import Board from './components/board';
 import './App.css';
-import { getNewBoardAndSolve } from './sudokuMachine/sudokuSolver';
-import {
-  getNewSudokuBoard,
-  getSolutionOfSudokuBoard
-} from './sudokuMachine/sudokuApi';
-
-const boardDef = [
-  [3, 0, 6, 5, 0, 8, 4, 0, 0],
-  [5, 2, 0, 0, 0, 0, 0, 0, 0],
-  [0, 8, 7, 0, 0, 0, 0, 3, 1],
-  [0, 0, 3, 0, 1, 0, 0, 8, 0],
-  [9, 0, 0, 8, 6, 3, 0, 0, 5],
-  [0, 5, 0, 0, 9, 0, 6, 0, 0],
-  [1, 3, 0, 0, 0, 0, 2, 5, 0],
-  [0, 0, 0, 0, 0, 0, 0, 7, 4],
-  [0, 0, 5, 2, 0, 6, 3, 0, 0]
-];
+import { getNewBoardAndSolveAsync } from './sudokuMachine/sudokuSolver';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleNewBoard } from './actions';
 
 const App = () => {
-  const [board, setBoard] = useState(boardDef);
-  const [count, setCount] = useState(0);
+  const reducer = useSelector((state) => ({
+    ...state.boardReducer
+  }));
+  const dispatch = useDispatch();
 
-  const renderBoard = (board) => {
-    return <Board board={board} />;
+  const makeRequest = async () => {
+    let result = await getNewBoardAndSolveAsync();
+    dispatch(handleNewBoard(result));
+  };
+
+  const renderBoard = () => {
+    return <Board />;
   };
 
   const testboardrerender = (row, col) => {
-    let newBoard = [...board];
-    newBoard[row][col] += 1;
-    setBoard(newBoard);
+    //let newBoard = [...board];
+    //ewBoard[row][col] += 1;
+    //setBoard(newBoard);
   };
 
   return (
@@ -45,15 +38,16 @@ const App = () => {
       </Row>
       <Row className='board'>
         <Col>
-          {renderBoard(board)}
+          {renderBoard()}
           <button onClick={() => testboardrerender(0, 0)}>
             hihihihihihihihihihih
           </button>
-          <button onClick={() => getNewBoardAndSolve()}>get got</button>
         </Col>
       </Row>
       <Row className='buttons'>
-        <Col>New Board</Col>
+        <Col>
+          <button onClick={async () => await makeRequest()}>newBoard</button>
+        </Col>
         <Col>Reset</Col>
         <Col>Solve</Col>
         <Col>Backtrack</Col>

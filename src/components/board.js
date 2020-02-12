@@ -1,6 +1,8 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { handleUpdateCell } from '../actions';
 
 const useStyles = makeStyles({
   table: {
@@ -54,7 +56,12 @@ const useStyles = makeStyles({
   }
 });
 
-const Board = (board) => {
+const Board = () => {
+  const { board } = useSelector((state) => ({
+    ...state.boardReducer
+  }));
+  const dispatch = useDispatch();
+
   //Create the classes of the table
   const classes = useStyles();
 
@@ -73,7 +80,9 @@ const Board = (board) => {
         <input
           value={isValueEditable ? cellValue : ''}
           className={styleOfInput}
-          disabled={isValueEditable}
+          onKeyPress={(e) =>
+            dispatch(handleUpdateCell(e.key, rowIndex, cellIndex))
+          }
         ></input>
       </td>
     );
@@ -97,9 +106,11 @@ const Board = (board) => {
       <p>Click on the boxes to solve</p>
       <Table responsive='xl' className={classes.table}>
         <tbody>
-          {board.board.map((row, rowIndex) => {
-            return renderRow(row, rowIndex);
-          })}
+          {board.length
+            ? board.map((row, rowIndex) => {
+                return renderRow(row, rowIndex);
+              })
+            : 'getnesssssswboard'}
         </tbody>
       </Table>
     </>
