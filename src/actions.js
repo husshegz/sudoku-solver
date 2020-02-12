@@ -11,4 +11,13 @@ const handleUpdateCell = (value, rowIndex, cellIndex) => {
   };
 };
 
-export { handleUpdateCell };
+const handleNewBoard = (result) => {
+  return {
+    type: types.NEW_BOARD,
+    payload: {
+      result: result
+    }
+  };
+};
+
+export { handleUpdateCell, handleNewBoard };

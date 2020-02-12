@@ -7,17 +7,15 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
 import { boardReducer } from './reducers/reducers';
-import { getNewBoardAndSolvePromise } from './sudokuMachine/sudokuSolver';
 
 //Initial State
-const INITIAL_STATE = {};
-console.log(getNewBoardAndSolvePromise());
+
 const rootReducer = combineReducers({
   boardReducer
 });
 const store = createStore(
   rootReducer,
-  INITIAL_STATE,
+  {},
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

@@ -1,5 +1,14 @@
 import types from '../types';
 
+const INITIAL_STATE = {
+  isSolved: false,
+  solution: [],
+  board: [],
+  changesArraySolved: [],
+  isSolutionCorrect: false,
+  ogBoard: []
+};
+
 const sanitizeUserInputandTable = (board, payload) => {
   let newBoard = JSON.parse(JSON.stringify(board));
   let userInput = payload.value;
@@ -16,35 +25,30 @@ const sanitizeUserInputandTable = (board, payload) => {
   return newBoard;
 };
 
-const boardReducer = (
-  state = {
-    board: [
-      [3, 0, 6, 5, 0, 8, 4, 0, 0],
-      [5, 2, 0, 0, 0, 0, 0, 0, 0],
-      [0, 8, 7, 0, 0, 0, 0, 3, 1],
-      [0, 0, 3, 0, 1, 0, 0, 8, 0],
-      [9, 0, 0, 8, 6, 3, 0, 0, 5],
-      [0, 5, 0, 0, 9, 0, 6, 0, 0],
-      [1, 3, 0, 0, 0, 0, 2, 5, 0],
-      [0, 0, 0, 0, 0, 0, 0, 7, 4],
-      [0, 0, 5, 2, 0, 6, 3, 0, 0]
-    ]
-  },
-  action
-) => {
+const sanitizeNewBoardstate = (payload) => {
+  let newOgBoard = JSON.parse(JSON.stringify(payload.result.ogBoard));
+
+  return {
+    board: newOgBoard,
+    ogBoard: payload.result.ogBoard,
+    changesArraySolved: payload.result.changesArraySolved,
+    isSolutionCorrect: payload.result.isSolutionCorrect,
+    solution: payload.result.solution,
+    isSolved: payload.result.isSolved
+  };
+};
+
+const boardReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.UPDATE_CELL:
-      console.log(action.payload);
-      let board = sanitizeUserInputandTable(state.board, action.payload);
-      console.log(board);
       return {
         ...state,
-        board: board
+        board: sanitizeUserInputandTable(state.board, action.payload)
       };
     case types.NEW_BOARD:
-      console.log('new board');
       return {
-        ...state
+        ...state,
+        ...sanitizeNewBoardstate(action.payload)
       };
     default:
       return {

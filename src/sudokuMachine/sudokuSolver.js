@@ -26,7 +26,6 @@ export const getNewBoardAndSolveAsync = async () => {
   let ogBoard = JSON.parse(JSON.stringify(board));
   let solution = await getSolutionOfSudokuBoard(board);
   let result = solve(board, solution, ogBoard);
-  console.log(result);
   return result;
 };
 

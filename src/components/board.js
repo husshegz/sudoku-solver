@@ -106,9 +106,11 @@ const Board = () => {
       <p>Click on the boxes to solve</p>
       <Table responsive='xl' className={classes.table}>
         <tbody>
-          {board.map((row, rowIndex) => {
-            return renderRow(row, rowIndex);
-          })}
+          {board.length
+            ? board.map((row, rowIndex) => {
+                return renderRow(row, rowIndex);
+              })
+            : 'getnesssssswboard'}
         </tbody>
       </Table>
     </>
