@@ -7,7 +7,8 @@ import {
   handleNewBoard,
   handleResetBoard,
   handleBackTrackBoard,
-  handleUpdateCell
+  handleUpdateCell,
+  handleSolveInstantly
 } from '../actions';
 
 const Buttons = () => {
@@ -16,7 +17,7 @@ const Buttons = () => {
   }));
   const dispatch = useDispatch();
 
-  const makeRequest = async () => {
+  const makeRequestForNewGame = async () => {
     let result = await getNewBoardAndSolveAsync();
     dispatch(handleNewBoard(result));
   };
@@ -36,24 +37,37 @@ const Buttons = () => {
     }
   };
 
+  const resetBoard = () => {
+    dispatch(handleResetBoard());
+  };
+
+  const solveInstantly = () => {
+    dispatch(handleSolveInstantly());
+  };
+
   return (
     <>
       <Col>
-        <Button variant='primary' onClick={async () => await makeRequest()}>
+        <Button
+          variant='primary'
+          onClick={async () => await makeRequestForNewGame()}
+        >
           New
         </Button>
       </Col>
       <Col>
-        <Button
-          variant='secondary'
-          onClick={() => dispatch(handleResetBoard())}
-        >
+        <Button variant='secondary' onClick={() => resetBoard()}>
           Reset
         </Button>
       </Col>
       <Col>
         <Button variant='dark' onClick={() => backTrack()}>
           BackTrack
+        </Button>
+      </Col>
+      <Col>
+        <Button variant='dark' onClick={() => solveInstantly()}>
+          Solve Instantly
         </Button>
       </Col>
     </>
