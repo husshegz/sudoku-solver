@@ -1,8 +1,9 @@
 import INITIAL_STATE from './boardReducer';
 import { equal } from '../sudokuMachine/sudokuSolver';
 
-export const sanitizeUserInputandTable = (board, payload) => {
+export const sanitizeUserInputandTable = (board, payload, history) => {
   let newBoard = JSON.parse(JSON.stringify(board));
+  let newHistory = JSON.parse(JSON.stringify(history));
   let userInput = payload.value;
   let rowIndex = payload.rowIndex;
   let cellIndex = payload.cellIndex;
@@ -12,9 +13,13 @@ export const sanitizeUserInputandTable = (board, payload) => {
   let reg = new RegExp('^[1-9]*$');
   if (reg.test(userInput)) {
     valueToChange = parseInt(userInput);
+    newHistory.push(board);
   }
   newBoard[rowIndex][cellIndex] = valueToChange;
-  return newBoard;
+  return {
+    board: newBoard,
+    history: newHistory
+  };
 };
 
 export const sanitizeNewBoardState = (payload) => {
@@ -64,4 +69,19 @@ export const sanitizeStateToValidateSolution = (board, solution) => {
       isSolutionValid: false
     };
   }
+};
+
+export const sanitizeStateUndoMove = (history) => {
+  const previousBoard = history[history.length - 1];
+  const newHistory = history.slice(0, history.length - 1);
+  return {
+    history: newHistory,
+    board: previousBoard
+  };
+};
+
+export const sanitizeStateBackTrackingSpeed = (payload) => {
+  return {
+    backTrackingSpeed: payload.backTrackingSpeed
+  };
 };

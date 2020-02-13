@@ -4,7 +4,9 @@ import {
   sanitizeUserInputandTable,
   sanitizeResetBoardState,
   sanitizeStateToSolveInstantly,
-  sanitizeStateToValidateSolution
+  sanitizeStateToValidateSolution,
+  sanitizeStateUndoMove,
+  sanitizeStateBackTrackingSpeed
 } from './boardReducerHelpers';
 
 let INITIAL_STATE = {
@@ -14,7 +16,9 @@ let INITIAL_STATE = {
   backtrackingChangesSteps: [],
   isBackTrackingSolutionCorrect: false,
   ogBoard: [],
-  isSolutionValid: false
+  isSolutionValid: false,
+  history: [],
+  backTrackingSpeed: 25
 };
 
 const boardReducer = (state = INITIAL_STATE, action) => {
@@ -22,7 +26,7 @@ const boardReducer = (state = INITIAL_STATE, action) => {
     case types.UPDATE_CELL:
       return {
         ...state,
-        board: sanitizeUserInputandTable(state.board, action.payload)
+        ...sanitizeUserInputandTable(state.board, action.payload, state.history)
       };
     case types.NEW_BOARD:
       return {
@@ -47,6 +51,16 @@ const boardReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...sanitizeStateToValidateSolution(state.board, state.solution)
+      };
+    case types.UNDO_MOVE:
+      return {
+        ...state,
+        ...sanitizeStateUndoMove(state.history)
+      };
+    case types.BACKTRACK_SPEED:
+      return {
+        ...state,
+        ...sanitizeStateBackTrackingSpeed(action.payload)
       };
     default:
       return {

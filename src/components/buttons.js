@@ -2,6 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Col, Button } from 'react-bootstrap';
+import Slider from '@material-ui/core/Slider';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { getNewBoardAndSolveAsync } from '../sudokuMachine/sudokuSolver';
 
@@ -10,13 +12,17 @@ import {
   handleResetBoard,
   handleUpdateCell,
   handleSolveInstantly,
-  handleValidateGame
+  handleValidateGame,
+  handleUndoMove,
+  handleBackTrackSpeedChange
 } from '../actions';
 
 const Buttons = () => {
-  const { backtrackingChangesSteps } = useSelector((state) => ({
-    ...state.boardReducer
-  }));
+  const { backtrackingChangesSteps, backTrackingSpeed } = useSelector(
+    (state) => ({
+      ...state.boardReducer
+    })
+  );
   const dispatch = useDispatch();
 
   const makeRequestForNewGame = async () => {
@@ -33,10 +39,14 @@ const Buttons = () => {
           let { rowIndex, cellIndex, value } = backtrackingChangesSteps[y];
           dispatch(handleUpdateCell(value, rowIndex, cellIndex));
         },
-        x * 10,
+        x * backTrackingSpeed + 1,
         x
       ); // we're passing x
     }
+  };
+
+  const backTrackSpeedChange = (e) => {
+    dispatch(handleBackTrackSpeedChange(e));
   };
 
   const resetBoard = () => {
@@ -49,6 +59,10 @@ const Buttons = () => {
 
   const validateSolution = () => {
     dispatch(handleValidateGame());
+  };
+
+  const undoAction = () => {
+    dispatch(handleUndoMove());
   };
 
   return (
@@ -81,6 +95,18 @@ const Buttons = () => {
           Validate
         </Button>
       </Col>
+      <Col>
+        <Button variant='primary' onClick={() => undoAction()}>
+          Undo
+        </Button>
+      </Col>
+      <Slider
+        aria-label='custom thumb label'
+        min={1}
+        max={100}
+        defaultValue={50}
+        onChange={(e, val) => backTrackSpeedChange(val)}
+      />
     </>
   );
 };

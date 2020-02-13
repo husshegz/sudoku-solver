@@ -55,6 +55,21 @@ const handleBackTrackBoard = () => {
 };
 
 /**
+ * Action handler to modify how fast is backtracking
+ * the board
+ * Dispatched from:
+ * - Slider (Buttons-component)
+ */
+const handleBackTrackSpeedChange = (backTrackingSpeed) => {
+  return {
+    type: types.BACKTRACK_SPEED,
+    payload: {
+      backTrackingSpeed: backTrackingSpeed
+    }
+  };
+};
+
+/**
  * Action handler to solve the board instantly
  * Using the API-given solution
  * Dispatched from:
@@ -97,5 +112,6 @@ export {
   handleBackTrackBoard,
   handleSolveInstantly,
   handleValidateGame,
-  handleUndoMove
+  handleUndoMove,
+  handleBackTrackSpeedChange
 };
