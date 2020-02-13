@@ -1,6 +1,5 @@
-import INITIAL_STATE from './boardReducer';
 import { equal } from '../sudokuMachine/sudokuSolver';
-import constants from '../constants';
+import { INITIAL_STATE, DIFFICULTIES_MENU } from '../constants';
 
 export const sanitizeUserInputandTable = (board, payload, history) => {
   let newBoard = JSON.parse(JSON.stringify(board));
@@ -26,30 +25,14 @@ export const sanitizeUserInputandTable = (board, payload, history) => {
 export const sanitizeNewBoardState = (payload) => {
   let newOgBoard = JSON.parse(JSON.stringify(payload.result.ogBoard));
 
-  let INITIAL_STATE = {
-    isBackTrackingSuccess: false,
-    solution: [],
-    board: [],
-    backtrackingChangesSteps: [],
-    isBackTrackingSolutionCorrect: false,
-    ogBoard: [],
-    isSolutionValid: false,
-    history: [],
-    backTrackingSpeed: 25,
-    difficulty: 'Hard',
-    boardConflicts: []
-  };
-
   return {
+    ...INITIAL_STATE,
     isBackTrackingSuccess: payload.result.isBackTrackingSuccess,
     solution: payload.result.solution,
     board: newOgBoard,
-    backtrackingChangesSteps: INITIAL_STATE.backtrackingChangesSteps,
     isBackTrackingSolutionCorrect: payload.result.isBackTrackingSolutionCorrect,
     ogBoard: payload.result.ogBoard,
-    isSolutionValid: INITIAL_STATE.isSolutionValid,
-    backtrackingChangesSteps: payload.result.backtrackingChangesSteps,
-    boardConflicts: INITIAL_STATE.boardConflicts
+    backtrackingChangesSteps: payload.result.backtrackingChangesSteps
   };
 };
 
@@ -106,6 +89,6 @@ export const sanitizeStateBackTrackingSpeed = (payload) => {
 
 export const sanitizeStateBoardDifficulty = (payload) => {
   return {
-    difficulty: constants.DIFFICULTIES_MENU[payload.eventKey]
+    difficulty: DIFFICULTIES_MENU[payload.eventKey]
   };
 };

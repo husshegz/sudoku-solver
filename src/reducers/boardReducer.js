@@ -10,19 +10,7 @@ import {
   sanitizeStateBoardDifficulty
 } from './boardReducerHelpers';
 
-let INITIAL_STATE = {
-  isBackTrackingSuccess: false,
-  solution: [],
-  board: [],
-  backtrackingChangesSteps: [],
-  isBackTrackingSolutionCorrect: false,
-  ogBoard: [],
-  isSolutionValid: false,
-  history: [],
-  backTrackingSpeed: 25,
-  difficulty: 'Hard',
-  boardConflicts: []
-};
+import { INITIAL_STATE } from '../constants';
 
 const boardReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {

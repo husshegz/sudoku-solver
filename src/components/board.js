@@ -68,7 +68,7 @@ const useStyles = makeStyles({
 });
 
 const Board = () => {
-  const { board, ogBoard, boardConflicts } = useSelector((state) => ({
+  const { board, ogBoard } = useSelector((state) => ({
     ...state.boardReducer
   }));
   const dispatch = useDispatch();
@@ -79,42 +79,6 @@ const Board = () => {
   //This function is called to see if the cell should be bordered or not
   const getProperStyle = (index, style) => {
     return index && (index + 1) % 3 === 0 ? style : classes.cell;
-  };
-
-  const getBoardConflicts = (boardConflicts) => {
-    const rowConflicts = [];
-    const colConflicts = [];
-    const boxConflicts = [];
-
-    if (boardConflicts) {
-      boardConflicts.map((e) => {
-        if ('row' in e) {
-          rowConflicts.push(e.row);
-        } else if ('col' in e) {
-          colConflicts.push(e.col);
-        } else if ('box' in e) {
-          boxConflicts.push(e.box);
-        }
-      });
-    }
-
-    return {
-      rowConflicts: rowConflicts,
-      colConflicts: colConflicts,
-      boxConflicts: boxConflicts
-    };
-  };
-
-  const getRowConflictStyle = (rowConflicts, rowIndex) => {
-    if (rowConflicts.includes(rowIndex)) {
-      return {
-        backgroundColor: 'red'
-      };
-    } else {
-      return {
-        backgroundColor: 'grey'
-      };
-    }
   };
 
   //Function to render each cell
@@ -142,14 +106,8 @@ const Board = () => {
   //Function to render a row
   const renderRow = (row, rowIndex) => {
     const styleOfRow = getProperStyle(rowIndex, classes.rowThird);
-    const rowConflicts = getBoardConflicts(boardConflicts).rowConflicts;
-    const rowConflictStyle = getRowConflictStyle(rowConflicts, rowIndex);
     return (
-      <tr
-        key={`row-${rowIndex}`}
-        className={styleOfRow}
-        style={rowConflictStyle}
-      >
+      <tr key={`row-${rowIndex}`} className={styleOfRow}>
         {row.map((col, colIndex) => {
           return renderCell(col, colIndex, rowIndex);
         })}

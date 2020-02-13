@@ -14,11 +14,10 @@ import {
   handleValidateGame,
   handleUndoMove,
   handleBackTrackSpeedChange,
-  handleDifficultyChange,
-  handleHowAmIDoing
+  handleDifficultyChange
 } from '../actions/actions';
 
-import constants from '../constants';
+import { DIFFICULTIES_MENU } from '../constants';
 
 const Buttons = () => {
   const {
@@ -74,10 +73,6 @@ const Buttons = () => {
     dispatch(handleDifficultyChange(eventKey));
   };
 
-  const howAmIDoing = () => {
-    dispatch(handleHowAmIDoing());
-  };
-
   return (
     <>
       <Row className='buttons'>
@@ -111,7 +106,7 @@ const Buttons = () => {
         </Col>
         <Col>
           <DropdownButton id='dropdown-basic-button' title={difficulty}>
-            {constants.DIFFICULTIES_MENU.map((difficulty, index) => {
+            {DIFFICULTIES_MENU.map((difficulty, index) => {
               return (
                 <Dropdown.Item
                   eventKey={index}
@@ -137,11 +132,6 @@ const Buttons = () => {
         <Col>
           <Button variant='dark' onClick={() => backTrack()}>
             BackTrack
-          </Button>
-        </Col>
-        <Col>
-          <Button variant='dark' onClick={() => howAmIDoing()}>
-            How am i doing ?
           </Button>
         </Col>
       </Row>
