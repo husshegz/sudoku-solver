@@ -14,7 +14,8 @@ import {
   handleValidateGame,
   handleUndoMove,
   handleBackTrackSpeedChange,
-  handleDifficultyChange
+  handleDifficultyChange,
+  handleHowAmIDoing
 } from '../actions/actions';
 
 import constants from '../constants';
@@ -73,6 +74,10 @@ const Buttons = () => {
     dispatch(handleDifficultyChange(eventKey));
   };
 
+  const howAmIDoing = () => {
+    dispatch(handleHowAmIDoing());
+  };
+
   return (
     <>
       <Row className='buttons'>
@@ -120,7 +125,7 @@ const Buttons = () => {
         </Col>
       </Row>
       <Row className='buttons'>
-        <Col xs={6}>
+        <Col>
           <Slider
             aria-label='custom thumb label'
             min={1}
@@ -129,9 +134,14 @@ const Buttons = () => {
             onChange={(e, val) => backTrackSpeedChange(val)}
           />
         </Col>
-        <Col xs={6}>
+        <Col>
           <Button variant='dark' onClick={() => backTrack()}>
             BackTrack
+          </Button>
+        </Col>
+        <Col>
+          <Button variant='dark' onClick={() => howAmIDoing()}>
+            How am i doing ?
           </Button>
         </Col>
       </Row>

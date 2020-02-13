@@ -119,6 +119,18 @@ const handleDifficultyChange = (eventKey) => {
   };
 };
 
+/**
+ * Action to evaluate the current state of the board
+ * Inform user on how they're doing
+ * Dispatched from:
+ * -How am i doing (Buttons-Component)
+ */
+const handleHowAmIDoing = () => {
+  return {
+    type: types.HOW_AM_I_DOING
+  };
+};
+
 export {
   handleUpdateCell,
   handleNewBoard,
@@ -128,5 +140,6 @@ export {
   handleValidateGame,
   handleUndoMove,
   handleBackTrackSpeedChange,
-  handleDifficultyChange
+  handleDifficultyChange,
+  handleHowAmIDoing
 };

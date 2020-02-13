@@ -20,7 +20,8 @@ let INITIAL_STATE = {
   isSolutionValid: false,
   history: [],
   backTrackingSpeed: 25,
-  difficulty: 'Hard'
+  difficulty: 'Hard',
+  boardConflicts: []
 };
 
 const boardReducer = (state = INITIAL_STATE, action) => {
@@ -68,6 +69,11 @@ const boardReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...sanitizeStateBoardDifficulty(action.payload)
+      };
+    case types.HOW_AM_I_DOING:
+      return {
+        ...state,
+        boardConflicts: [{ row: 1 }]
       };
     default:
       return {

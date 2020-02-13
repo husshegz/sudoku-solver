@@ -26,13 +26,30 @@ export const sanitizeUserInputandTable = (board, payload, history) => {
 export const sanitizeNewBoardState = (payload) => {
   let newOgBoard = JSON.parse(JSON.stringify(payload.result.ogBoard));
 
+  let INITIAL_STATE = {
+    isBackTrackingSuccess: false,
+    solution: [],
+    board: [],
+    backtrackingChangesSteps: [],
+    isBackTrackingSolutionCorrect: false,
+    ogBoard: [],
+    isSolutionValid: false,
+    history: [],
+    backTrackingSpeed: 25,
+    difficulty: 'Hard',
+    boardConflicts: []
+  };
+
   return {
-    board: newOgBoard,
-    ogBoard: payload.result.ogBoard,
-    backtrackingChangesSteps: payload.result.backtrackingChangesSteps,
-    isBackTrackingSolutionCorrect: payload.result.isBackTrackingSolutionCorrect,
+    isBackTrackingSuccess: payload.result.isBackTrackingSuccess,
     solution: payload.result.solution,
-    isBackTrackingSuccess: payload.result.isBackTrackingSuccess
+    board: newOgBoard,
+    backtrackingChangesSteps: INITIAL_STATE.backtrackingChangesSteps,
+    isBackTrackingSolutionCorrect: payload.result.isBackTrackingSolutionCorrect,
+    ogBoard: payload.result.ogBoard,
+    isSolutionValid: INITIAL_STATE.isSolutionValid,
+    backtrackingChangesSteps: payload.result.backtrackingChangesSteps,
+    boardConflicts: INITIAL_STATE.boardConflicts
   };
 };
 
