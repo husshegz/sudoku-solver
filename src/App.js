@@ -34,7 +34,7 @@ const App = () => {
       <Row className='board'>
         <Col>{renderBoard()}</Col>
       </Row>
-      <Row className='buttons'>{renderButtons()}</Row>
+      {renderButtons()}
       <Row className='footer'>
         <Col>
           <Jumbotron>footer</Jumbotron>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Table } from 'react-bootstrap';
+import { Table, Row, Col } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core';
 
 import { handleUpdateCell } from '../actions';
@@ -118,25 +118,29 @@ const Board = () => {
   //render()
   return (
     <>
-      <p>Click on the boxes to solve</p>
-      <Table
-        responsive='xl'
-        style={{
-          borderStyle: 'solid',
-          borderWidth: 4,
-          borderColor: '#black'
-        }}
-      >
-        <tbody>
-          {board && board.length ? (
-            board.map((row, rowIndex) => {
-              return renderRow(row, rowIndex);
-            })
-          ) : (
-            <></>
-          )}
-        </tbody>
-      </Table>
+      <Row className='board'>
+        <Col>
+          <p>Click on the boxes to solve</p>
+          <Table
+            responsive='xl'
+            style={{
+              borderStyle: 'solid',
+              borderWidth: 4,
+              borderColor: '#black'
+            }}
+          >
+            <tbody>
+              {board && board.length ? (
+                board.map((row, rowIndex) => {
+                  return renderRow(row, rowIndex);
+                })
+              ) : (
+                <></>
+              )}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
     </>
   );
 };

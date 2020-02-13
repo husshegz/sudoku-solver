@@ -19,7 +19,6 @@ export const getNewBoardAndSolvePromise = () => {
       });
     })
     .then((all) => {
-      //console.log(all);
       return all;
     })
     .catch(function(error) {
@@ -34,8 +33,8 @@ export const getNewBoardAndSolvePromise = () => {
  * 3) keeps a copy of the original board : DEEP-CLONE
  * Note: Similar to the Promise function but Async
  */
-export const getNewBoardAndSolveAsync = async () => {
-  let board = await getNewSudokuBoard();
+export const getNewBoardAndSolveAsync = async (difficulty) => {
+  let board = await getNewSudokuBoard(difficulty);
   let ogBoard = JSON.parse(JSON.stringify(board));
   let solution = await getSolutionOfSudokuBoard(board);
   let result = solve(board, solution, ogBoard);

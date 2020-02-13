@@ -1,5 +1,6 @@
 import INITIAL_STATE from './boardReducer';
 import { equal } from '../sudokuMachine/sudokuSolver';
+import constants from '../constants';
 
 export const sanitizeUserInputandTable = (board, payload, history) => {
   let newBoard = JSON.parse(JSON.stringify(board));
@@ -83,5 +84,11 @@ export const sanitizeStateUndoMove = (history) => {
 export const sanitizeStateBackTrackingSpeed = (payload) => {
   return {
     backTrackingSpeed: payload.backTrackingSpeed
+  };
+};
+
+export const sanitizeStateBoardDifficulty = (payload) => {
+  return {
+    difficulty: constants.DIFFICULTIES_MENU[payload.eventKey]
   };
 };

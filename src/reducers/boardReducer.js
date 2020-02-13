@@ -6,7 +6,8 @@ import {
   sanitizeStateToSolveInstantly,
   sanitizeStateToValidateSolution,
   sanitizeStateUndoMove,
-  sanitizeStateBackTrackingSpeed
+  sanitizeStateBackTrackingSpeed,
+  sanitizeStateBoardDifficulty
 } from './boardReducerHelpers';
 
 let INITIAL_STATE = {
@@ -18,7 +19,8 @@ let INITIAL_STATE = {
   ogBoard: [],
   isSolutionValid: false,
   history: [],
-  backTrackingSpeed: 25
+  backTrackingSpeed: 25,
+  difficulty: 'Hard'
 };
 
 const boardReducer = (state = INITIAL_STATE, action) => {
@@ -61,6 +63,11 @@ const boardReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...sanitizeStateBackTrackingSpeed(action.payload)
+      };
+    case types.DIFFICULTIES_CHANGE:
+      return {
+        ...state,
+        ...sanitizeStateBoardDifficulty(action.payload)
       };
     default:
       return {

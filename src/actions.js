@@ -105,6 +105,20 @@ const handleUndoMove = () => {
   };
 };
 
+/**
+ * Action to change game difficulty
+ * Dispatched from:
+ * -Difficulty Dropdown (Buttons-Component)
+ */
+const handleDifficultyChange = (eventKey) => {
+  return {
+    type: types.DIFFICULTIES_CHANGE,
+    payload: {
+      eventKey: eventKey
+    }
+  };
+};
+
 export {
   handleUpdateCell,
   handleNewBoard,
@@ -113,5 +127,6 @@ export {
   handleSolveInstantly,
   handleValidateGame,
   handleUndoMove,
-  handleBackTrackSpeedChange
+  handleBackTrackSpeedChange,
+  handleDifficultyChange
 };

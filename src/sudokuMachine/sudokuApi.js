@@ -3,7 +3,7 @@ import axios from 'axios';
 //The api urls
 //validate will not be used, i think...
 const sudokuApiUrl = {
-  newBoard: 'https://sugoku.herokuapp.com/board?difficulty=easy',
+  newBoard: 'https://sugoku.herokuapp.com/board',
   solveBoard: 'https://sugoku.herokuapp.com/solve',
   validateBoard: 'https://sugoku.herokuapp.com/validate'
 };
@@ -68,8 +68,12 @@ export const getSolutionOfSudokuBoardPromise = (board) => {
  * Async
  * GET new board
  */
-export const getNewSudokuBoard = async () => {
-  let newBoardRes = await axios.get(sudokuApiUrl.newBoard);
+export const getNewSudokuBoard = async (difficulty) => {
+  let newBoardRes = await axios.get(sudokuApiUrl.newBoard, {
+    params: {
+      difficulty: difficulty ? difficulty.toLowerCase() : 'easy'
+    }
+  });
   let board = newBoardRes.data.board;
   return board;
 };
