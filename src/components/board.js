@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { Table } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
+
 import { handleUpdateCell } from '../actions';
 
 const useStyles = makeStyles({
@@ -66,7 +68,7 @@ const useStyles = makeStyles({
 });
 
 const Board = () => {
-  const { board } = useSelector((state) => ({
+  const { board, ogBoard } = useSelector((state) => ({
     ...state.boardReducer
   }));
   const dispatch = useDispatch();
@@ -83,15 +85,19 @@ const Board = () => {
   const renderCell = (cellValue, cellIndex, rowIndex) => {
     const styleOfCell = getProperStyle(cellIndex, classes.cellThird);
     const styleOfInput = classes.input;
-    const isValueEditable = cellValue ? true : false;
+    const isCellPlayable = ogBoard[rowIndex][cellIndex] === 0;
     return (
       <td key={`${rowIndex}-${cellIndex}`} className={styleOfCell}>
         <input
-          value={isValueEditable ? cellValue : ''}
+          value={cellValue ? cellValue : '_'}
           className={styleOfInput}
           onKeyPress={(e) =>
             dispatch(handleUpdateCell(e.key, rowIndex, cellIndex))
           }
+          onChange={() => {
+            return; //need to put this because of consolo "warning"
+          }}
+          disabled={!isCellPlayable}
         ></input>
       </td>
     );
@@ -121,11 +127,15 @@ const Board = () => {
           borderColor: '#black'
         }}
       >
-        {board && board.length
-          ? board.map((row, rowIndex) => {
+        <tbody>
+          {board && board.length ? (
+            board.map((row, rowIndex) => {
               return renderRow(row, rowIndex);
             })
-          : 'getnesssssswboard'}
+          ) : (
+            <></>
+          )}
+        </tbody>
       </Table>
     </>
   );

@@ -1,18 +1,20 @@
 import React from 'react';
-
-import { Col, Button, ButtonToolbar } from 'react-bootstrap';
-import { getNewBoardAndSolveAsync } from '../sudokuMachine/sudokuSolver';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { Col, Button } from 'react-bootstrap';
+
+import { getNewBoardAndSolveAsync } from '../sudokuMachine/sudokuSolver';
+
 import {
   handleNewBoard,
   handleResetBoard,
-  handleBackTrackBoard,
   handleUpdateCell,
-  handleSolveInstantly
+  handleSolveInstantly,
+  handleValidateGame
 } from '../actions';
 
 const Buttons = () => {
-  const { changesArraySolved, board } = useSelector((state) => ({
+  const { backtrackingChangesSteps } = useSelector((state) => ({
     ...state.boardReducer
   }));
   const dispatch = useDispatch();
@@ -23,12 +25,12 @@ const Buttons = () => {
   };
 
   const backTrack = () => {
-    for (let x = 0; x < changesArraySolved.length; x++) {
+    for (let x = 0; x < backtrackingChangesSteps.length; x++) {
       setTimeout(
         (y) => {
           console.log('%d => %d', y, y);
-          console.log(changesArraySolved[y]);
-          let { rowIndex, cellIndex, value } = changesArraySolved[y];
+          console.log(backtrackingChangesSteps[y]);
+          let { rowIndex, cellIndex, value } = backtrackingChangesSteps[y];
           dispatch(handleUpdateCell(value, rowIndex, cellIndex));
         },
         x * 10,
@@ -43,6 +45,10 @@ const Buttons = () => {
 
   const solveInstantly = () => {
     dispatch(handleSolveInstantly());
+  };
+
+  const validateSolution = () => {
+    dispatch(handleValidateGame());
   };
 
   return (
@@ -68,6 +74,11 @@ const Buttons = () => {
       <Col>
         <Button variant='dark' onClick={() => solveInstantly()}>
           Solve Instantly
+        </Button>
+      </Col>
+      <Col>
+        <Button variant='primary' onClick={() => validateSolution()}>
+          Validate
         </Button>
       </Col>
     </>

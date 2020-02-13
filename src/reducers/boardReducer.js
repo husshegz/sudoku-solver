@@ -3,16 +3,18 @@ import {
   sanitizeNewBoardState,
   sanitizeUserInputandTable,
   sanitizeResetBoardState,
-  sanitizeStateToSolveInstantly
+  sanitizeStateToSolveInstantly,
+  sanitizeStateToValidateSolution
 } from './boardReducerHelpers';
 
 let INITIAL_STATE = {
-  isSolved: false,
+  isBackTrackingSuccess: false,
   solution: [],
   board: [],
-  changesArraySolved: [],
-  isSolutionCorrect: false,
-  ogBoard: []
+  backtrackingChangesSteps: [],
+  isBackTrackingSolutionCorrect: false,
+  ogBoard: [],
+  isSolutionValid: false
 };
 
 const boardReducer = (state = INITIAL_STATE, action) => {
@@ -40,6 +42,11 @@ const boardReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...sanitizeStateToSolveInstantly(state.solution)
+      };
+    case types.VALIDATE_SOLUTION:
+      return {
+        ...state,
+        ...sanitizeStateToValidateSolution(state.board, state.solution)
       };
     default:
       return {

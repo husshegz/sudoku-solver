@@ -1,16 +1,21 @@
 import axios from 'axios';
 
+//The api urls
+//validate will not be used, i think...
 const sudokuApiUrl = {
   newBoard: 'https://sugoku.herokuapp.com/board?difficulty=easy',
   solveBoard: 'https://sugoku.herokuapp.com/solve',
   validateBoard: 'https://sugoku.herokuapp.com/validate'
 };
 
+//headers
 const headersForSolution = {
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 };
 
-//This is due to api limitations, instruction are in the documentation of the api referenced
+/**
+ * API instructions to encode the board before posting it
+ */
 const encodeBoard = (board) =>
   board.reduce(
     (result, row, i) =>
@@ -19,13 +24,15 @@ const encodeBoard = (board) =>
     ''
   );
 
-//This is due to api limitations, instruction are in the documentation of the api referenced
 const encodeParams = (params) =>
   Object.keys(params)
     .map((key) => key + `= %5B${encodeBoard(params[key])}%5D`)
     .join('&');
 
-//Calls sudoku api to generate a new board
+/**
+ * Promise
+ * GET new board
+ */
 export const getNewSudokuBoardPromise = () => {
   return axios
     .get(sudokuApiUrl.newBoard)
@@ -37,6 +44,11 @@ export const getNewSudokuBoardPromise = () => {
     });
 };
 
+/**
+ * Promise
+ * POST new board
+ * result in solution of the game
+ */
 export const getSolutionOfSudokuBoardPromise = (board) => {
   return axios
     .post(
@@ -52,13 +64,21 @@ export const getSolutionOfSudokuBoardPromise = (board) => {
     });
 };
 
-//Calls sudoku api to generate a new board
+/**
+ * Async
+ * GET new board
+ */
 export const getNewSudokuBoard = async () => {
   let newBoardRes = await axios.get(sudokuApiUrl.newBoard);
   let board = newBoardRes.data.board;
   return board;
 };
 
+/**
+ * Async
+ * POST new board
+ * result in solution of the game
+ */
 export const getSolutionOfSudokuBoard = async (board) => {
   let solvedBoardRes = await axios.post(
     sudokuApiUrl.solveBoard,

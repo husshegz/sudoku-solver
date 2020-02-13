@@ -1,4 +1,5 @@
 import INITIAL_STATE from './boardReducer';
+import { equal } from '../sudokuMachine/sudokuSolver';
 
 export const sanitizeUserInputandTable = (board, payload) => {
   let newBoard = JSON.parse(JSON.stringify(board));
@@ -22,10 +23,10 @@ export const sanitizeNewBoardState = (payload) => {
   return {
     board: newOgBoard,
     ogBoard: payload.result.ogBoard,
-    changesArraySolved: payload.result.changesArraySolved,
-    isSolutionCorrect: payload.result.isSolutionCorrect,
+    backtrackingChangesSteps: payload.result.backtrackingChangesSteps,
+    isBackTrackingSolutionCorrect: payload.result.isBackTrackingSolutionCorrect,
     solution: payload.result.solution,
-    isSolved: payload.result.isSolved
+    isBackTrackingSuccess: payload.result.isBackTrackingSuccess
   };
 };
 
@@ -40,11 +41,27 @@ export const sanitizeResetBoardState = (ogBoard) => {
 };
 
 export const sanitizeStateToSolveInstantly = (solution) => {
-  let solutionBoard = INITIAL_STATE.solution;
-  if (solution.length) {
-    solutionBoard = JSON.parse(JSON.stringify(solution));
-  }
   return {
-    board: solutionBoard
+    board:
+      solution && solution.length
+        ? JSON.parse(JSON.stringify(solution))
+        : INITIAL_STATE.solution
   };
+};
+
+export const sanitizeStateToValidateSolution = (board, solution) => {
+  let solutionBoard =
+    solution && solution.length ? solution : INITIAL_STATE.solution;
+  let currentBoard = board && board.length ? board : INITIAL_STATE.board;
+  if (equal(solutionBoard, currentBoard)) {
+    alert(true);
+    return {
+      isSolutionValid: true
+    };
+  } else {
+    alert(false);
+    return {
+      isSolutionValid: false
+    };
+  }
 };
