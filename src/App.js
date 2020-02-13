@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container, Col, Row, Jumbotron } from 'react-bootstrap';
 
-import './App.css';
+import './css/App.css';
 
 import Board from './components/board';
 import Buttons from './components/buttons';

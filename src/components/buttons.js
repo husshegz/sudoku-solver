@@ -15,7 +15,7 @@ import {
   handleUndoMove,
   handleBackTrackSpeedChange,
   handleDifficultyChange
-} from '../actions';
+} from '../actions/actions';
 
 import constants from '../constants';
 

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Table, Row, Col } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core';
 
-import { handleUpdateCell } from '../actions';
+import { handleUpdateCell } from '../actions/actions';
 
 const useStyles = makeStyles({
   table: {
