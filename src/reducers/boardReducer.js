@@ -20,10 +20,12 @@ const boardReducer = (state = INITIAL_STATE, action) => {
         ...sanitizeUserInputandTable(state.board, action.payload, state.history)
       };
     case types.NEW_BOARD:
-      return {
+      let newState = {
         ...state,
         ...sanitizeNewBoardState(action.payload)
       };
+      console.log(newState);
+      return newState;
     case types.RESET_BOARD:
       return {
         ...state,
