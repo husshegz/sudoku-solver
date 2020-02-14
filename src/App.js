@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Col, Row, Jumbotron } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 import { GoMarkGithub } from 'react-icons/go';
 import { MdHome } from 'react-icons/md';
 import { FaLinkedin } from 'react-icons/fa';
@@ -42,6 +42,7 @@ const App = () => {
           <a
             className={'personal-link'}
             target='_blank'
+            rel='noopener noreferrer'
             href={'https://github.com/husshegz/sudoku-solver'}
           >
             <GoMarkGithub />
@@ -57,11 +58,16 @@ const App = () => {
           <a
             className={'personal-link'}
             target='_blank'
+            rel='noopener noreferrer'
             href={'https://husshegz.github.io/'}
           >
             <MdHome />
           </a>
-          <a href={'https://www.linkedin.com/in/husshegazy/'} target='_blank'>
+          <a
+            href={'https://www.linkedin.com/in/husshegazy/'}
+            rel='noopener noreferrer'
+            target='_blank'
+          >
             <FaLinkedin />
           </a>
         </Col>

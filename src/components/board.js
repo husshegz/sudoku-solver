@@ -101,6 +101,7 @@ const Board = () => {
           onKeyPress={(e) =>
             dispatch(handleUpdateCell(e.key, rowIndex, cellIndex))
           }
+          type='number'
           onChange={() => {
             return; //need to put this because of consolo "warning"
           }}
