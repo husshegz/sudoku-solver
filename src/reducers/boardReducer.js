@@ -44,7 +44,8 @@ const boardReducer = (state = INITIAL_STATE, action) => {
         ...sanitizeStateToValidateSolution(
           state.board,
           state.solution,
-          state.isSolutionValid
+          state.isSolutionValid,
+          state.isCurrentlyBacktracking
         )
       };
     case types.UNDO_MOVE:

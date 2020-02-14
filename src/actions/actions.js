@@ -6,13 +6,19 @@ import types from './types';
  * - User inputs a value in an editable cell (Board-Component)
  * - Backtacking button (Buttons-Component)
  */
-const handleUpdateCell = (value, rowIndex, cellIndex) => {
+const handleUpdateCell = (
+  userInput,
+  rowIndex,
+  cellIndex,
+  isCurrentlyBacktracking
+) => {
   return {
     type: types.UPDATE_CELL,
     payload: {
-      value: value,
+      userInput: userInput,
       rowIndex: rowIndex,
-      cellIndex: cellIndex
+      cellIndex: cellIndex,
+      isCurrentlyBacktracking: isCurrentlyBacktracking
     }
   };
 };

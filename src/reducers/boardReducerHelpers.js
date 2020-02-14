@@ -4,9 +4,7 @@ import { INITIAL_STATE, DIFFICULTIES_MENU } from '../constants';
 export const sanitizeUserInputandTable = (board, payload, history) => {
   let newBoard = JSON.parse(JSON.stringify(board));
   let newHistory = JSON.parse(JSON.stringify(history));
-  let userInput = payload.value;
-  let rowIndex = payload.rowIndex;
-  let cellIndex = payload.cellIndex;
+  let { isCurrentlyBacktracking, rowIndex, cellIndex, userInput } = payload;
 
   let valueToChange = 0;
   //Make sure it's a number between 1-9 the valid numbers for a sudoku board
@@ -18,7 +16,10 @@ export const sanitizeUserInputandTable = (board, payload, history) => {
   newBoard[rowIndex][cellIndex] = valueToChange;
   return {
     board: newBoard,
-    history: newHistory
+    history: newHistory,
+    selectedRow: rowIndex,
+    selectedCol: cellIndex,
+    isCurrentlyBacktracking: isCurrentlyBacktracking
   };
 };
 
@@ -44,7 +45,10 @@ export const sanitizeResetBoardState = (ogBoard) => {
   return {
     board: newOgBoard,
     history: INITIAL_STATE.history,
-    isSolutionValid: INITIAL_STATE.isSolutionValid
+    isSolutionValid: INITIAL_STATE.isSolutionValid,
+    selectedRow: INITIAL_STATE.selectedRow,
+    selectedCol: INITIAL_STATE.selectedCol,
+    isCurrentlyBacktracking: INITIAL_STATE.isCurrentlyBacktracking
   };
 };
 
@@ -60,15 +64,16 @@ export const sanitizeStateToSolveInstantly = (solution) => {
 export const sanitizeStateToValidateSolution = (
   board,
   solution,
-  isSolutionValid
+  isSolutionValid,
+  isCurrentlyBacktracking
 ) => {
-  if (isSolutionValid) return { isSolutionValid: false };
   let solutionBoard =
     solution && solution.length ? solution : INITIAL_STATE.solution;
   let currentBoard = board && board.length ? board : INITIAL_STATE.board;
   if (equal(solutionBoard, currentBoard)) {
     return {
-      isSolutionValid: true
+      isSolutionValid: true,
+      isCurrentlyBacktracking: isCurrentlyBacktracking
     };
   } else {
     return {
@@ -83,7 +88,9 @@ export const sanitizeStateUndoMove = (history) => {
     const newHistory = history.slice(0, history.length - 1);
     return {
       history: newHistory,
-      board: previousBoard
+      board: previousBoard,
+      isSolutionValid: false,
+      isCurrentlyBacktracking: false
     };
   }
   return {};

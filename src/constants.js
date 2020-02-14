@@ -460,7 +460,10 @@ const INITIAL_STATE = {
   isSolutionValid: false,
   history: [],
   backTrackingSpeed: 5,
-  difficulty: 'Hard'
+  difficulty: 'Hard',
+  selectedRow: 0,
+  selectedCol: 0,
+  isCurrentlyBacktracking: false
 };
 
 export { DIFFICULTIES_MENU, INITIAL_STATE };

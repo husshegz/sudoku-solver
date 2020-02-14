@@ -54,9 +54,6 @@ const Buttons = () => {
   const [isLoading, setLoading] = useState(false);
   const [backtrackId, setBacktrackId] = useState([]);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const dispatch = useDispatch();
   const classes = useStyles();
   const { width, height } = useWindowSize();
@@ -72,9 +69,9 @@ const Buttons = () => {
     i + 1 === backtrackingChangesSteps.length
       ? setLoading(false)
       : setLoading(true);
-    console.log('%d => %d', i, backtrackingChangesSteps[i]);
+    //console.log('%d => %d', i, backtrackingChangesSteps[i]);
     let { rowIndex, cellIndex, value } = backtrackingChangesSteps[i];
-    dispatch(handleUpdateCell(value, rowIndex, cellIndex));
+    dispatch(handleUpdateCell(value, rowIndex, cellIndex, true));
   };
 
   const stopBackTrack = () => {
@@ -92,14 +89,10 @@ const Buttons = () => {
   const backTrack = () => {
     dispatch(handleResetBoard());
     for (let x = 0; x < backtrackingChangesSteps.length; x++) {
-      const timeoutId = setTimeout(
-        backtrackFunc,
-        x *
-          backtrackingChangesSteps.length *
-          10 *
-          Math.round(1 / backTrackingSpeed),
-        x
+      const speed = Math.round(
+        backtrackingChangesSteps.length / backTrackingSpeed
       );
+      const timeoutId = setTimeout(backtrackFunc, (x / 10) * speed, x);
       backtrackId.push(timeoutId);
       setBacktrackId(backtrackId);
     }
@@ -118,10 +111,8 @@ const Buttons = () => {
   };
 
   const validateSolution = () => {
-    if (!isSolutionValid) {
-      handleShow();
-    }
     dispatch(handleValidateGame());
+    isSolutionValid ? setShow(false) : setShow(true);
   };
 
   const undoAction = () => {
@@ -134,11 +125,9 @@ const Buttons = () => {
 
   const renderValidateModal = () => {
     return (
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton />
-        <Modal.Body closeButton>
-          Nope! Almost there :) Keep Trying ^_^
-        </Modal.Body>
+        <Modal.Body>Nope! Almost there :) Keep Trying ^_^</Modal.Body>
       </Modal>
     );
   };
@@ -159,7 +148,11 @@ const Buttons = () => {
 
   return (
     <>
-      {isSolutionValid ? <Confetti width={width} height={height} /> : <></>}
+      {isSolutionValid ? (
+        <Confetti width={width} height={height} />
+      ) : (
+        renderValidateModal()
+      )}
       <Row className='buttons'>
         <Col className={classes.buttonCol}>
           <Dropdown as={ButtonGroup} disabled={isLoading}>
@@ -187,7 +180,7 @@ const Buttons = () => {
               onClick={() => undoAction()}
               disabled={isLoading}
             >
-              Undos
+              Undo
             </Button>
             <Button
               variant='outline-dark'
@@ -196,7 +189,6 @@ const Buttons = () => {
             >
               Validate
             </Button>
-            {renderValidateModal()}
             <Button
               variant='outline-dark'
               onClick={() => resetBoard()}
@@ -227,8 +219,8 @@ const Buttons = () => {
           <Slider
             aria-label='custom thumb label'
             min={1}
-            max={10}
-            defaultValue={5}
+            max={50}
+            defaultValue={25}
             onChange={(e, val) => backTrackSpeedChange(val)}
             className={classes.slider}
             disabled={isLoading}

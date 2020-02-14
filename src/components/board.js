@@ -68,7 +68,13 @@ const useStyles = makeStyles({
 });
 
 const Board = () => {
-  const { board, ogBoard } = useSelector((state) => ({
+  const {
+    board,
+    ogBoard,
+    selectedRow,
+    selectedCol,
+    isCurrentlyBacktracking
+  } = useSelector((state) => ({
     ...state.boardReducer
   }));
   const dispatch = useDispatch();
@@ -86,6 +92,16 @@ const Board = () => {
     const styleOfCell = getProperStyle(cellIndex, classes.cellThird);
     const styleOfInput = classes.input;
     const isCellPlayable = ogBoard[rowIndex][cellIndex] === 0;
+    let extraStyle = {};
+    if (
+      selectedRow === rowIndex &&
+      selectedCol === cellIndex &&
+      isCurrentlyBacktracking
+    ) {
+      extraStyle = {
+        backgroundColor: 'grey'
+      };
+    }
     return (
       <td
         key={`${rowIndex}-${cellIndex}`}
@@ -97,9 +113,10 @@ const Board = () => {
       >
         <input
           value={cellValue ? cellValue : '_'}
+          style={extraStyle}
           className={styleOfInput}
           onKeyPress={(e) =>
-            dispatch(handleUpdateCell(e.key, rowIndex, cellIndex))
+            dispatch(handleUpdateCell(e.key, rowIndex, cellIndex, false))
           }
           type='number'
           onChange={() => {
