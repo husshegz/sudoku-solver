@@ -14,6 +14,9 @@
   color: black;
   margin-right: 2%;
 }
+.personal-link:hover {
+  color: #282c34;
+}
 
 .App-header {
   background-color: white;

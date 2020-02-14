@@ -1,5 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useWindowSize from 'react-use/lib/useWindowSize';
+import Confetti from 'react-confetti';
 
 import {
   Row,
@@ -44,12 +46,15 @@ const Buttons = () => {
   const {
     backtrackingChangesSteps,
     backTrackingSpeed,
-    difficulty
+    difficulty,
+    isSolutionValid
   } = useSelector((state) => ({
     ...state.boardReducer
   }));
+
   const dispatch = useDispatch();
   const classes = useStyles();
+  const { width, height } = useWindowSize();
 
   const makeRequestForNewGame = async (eventKey) => {
     setDifficulty(eventKey);
@@ -100,6 +105,7 @@ const Buttons = () => {
 
   return (
     <>
+      {isSolutionValid ? <Confetti width={width} height={height} /> : <></>}
       <Row className='buttons'>
         <Col className={classes.buttonCol}>
           <Dropdown as={ButtonGroup}>

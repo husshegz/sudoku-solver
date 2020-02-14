@@ -39,7 +39,13 @@ const App = () => {
             textAlign: 'left'
           }}
         >
-          <GoMarkGithub />
+          <a
+            className={'personal-link'}
+            target='_blank'
+            href={'https://github.com/husshegz/sudoku-solver'}
+          >
+            <GoMarkGithub />
+          </a>
         </Col>
         <Col xl={4}>Sudoku Solver</Col>
         <Col
@@ -48,10 +54,14 @@ const App = () => {
             textAlign: 'right'
           }}
         >
-          <a className={'personal-link'} href={'https://husshegz.github.io/'}>
+          <a
+            className={'personal-link'}
+            target='_blank'
+            href={'https://husshegz.github.io/'}
+          >
             <MdHome />
           </a>
-          <a href={'https://www.linkedin.com/in/husshegazy/'}>
+          <a href={'https://www.linkedin.com/in/husshegazy/'} target='_blank'>
             <FaLinkedin />
           </a>
         </Col>

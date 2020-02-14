@@ -20,12 +20,10 @@ const boardReducer = (state = INITIAL_STATE, action) => {
         ...sanitizeUserInputandTable(state.board, action.payload, state.history)
       };
     case types.NEW_BOARD:
-      let newState = {
+      return {
         ...state,
         ...sanitizeNewBoardState(action.payload)
       };
-      console.log(newState);
-      return newState;
     case types.RESET_BOARD:
       return {
         ...state,
@@ -43,7 +41,11 @@ const boardReducer = (state = INITIAL_STATE, action) => {
     case types.VALIDATE_SOLUTION:
       return {
         ...state,
-        ...sanitizeStateToValidateSolution(state.board, state.solution)
+        ...sanitizeStateToValidateSolution(
+          state.board,
+          state.solution,
+          state.isSolutionValid
+        )
       };
     case types.UNDO_MOVE:
       return {

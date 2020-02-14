@@ -57,17 +57,20 @@ export const sanitizeStateToSolveInstantly = (solution) => {
   };
 };
 
-export const sanitizeStateToValidateSolution = (board, solution) => {
+export const sanitizeStateToValidateSolution = (
+  board,
+  solution,
+  isSolutionValid
+) => {
+  if (isSolutionValid) return { isSolutionValid: false };
   let solutionBoard =
     solution && solution.length ? solution : INITIAL_STATE.solution;
   let currentBoard = board && board.length ? board : INITIAL_STATE.board;
   if (equal(solutionBoard, currentBoard)) {
-    alert(true);
     return {
       isSolutionValid: true
     };
   } else {
-    alert(false);
     return {
       isSolutionValid: false
     };
