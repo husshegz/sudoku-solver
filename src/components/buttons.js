@@ -1,8 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Row, Col, Button, Dropdown, DropdownButton } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Button,
+  ButtonGroup,
+  Dropdown,
+  DropdownButton
+} from 'react-bootstrap';
 import Slider from '@material-ui/core/Slider';
+import { makeStyles } from '@material-ui/core';
+import { MdUndo } from 'react-icons/md';
 
 import { getNewBoardAndSolveAsync } from '../sudokuMachine/sudokuSolver';
 
@@ -19,6 +28,18 @@ import {
 
 import { DIFFICULTIES_MENU } from '../constants';
 
+const useStyles = makeStyles({
+  slider: {
+    width: '50%',
+    marginLeft: '5%',
+    top: '25%',
+    color: 'black'
+  },
+  buttonCol: {
+    margin: '2%'
+  }
+});
+
 const Buttons = () => {
   const {
     backtrackingChangesSteps,
@@ -28,13 +49,17 @@ const Buttons = () => {
     ...state.boardReducer
   }));
   const dispatch = useDispatch();
+  const classes = useStyles();
 
-  const makeRequestForNewGame = async () => {
+  const makeRequestForNewGame = async (eventKey) => {
+    setDifficulty(eventKey);
+    let difficulty = DIFFICULTIES_MENU[eventKey];
     let result = await getNewBoardAndSolveAsync(difficulty);
     dispatch(handleNewBoard(result));
   };
 
   const backTrack = () => {
+    dispatch(handleResetBoard());
     for (let x = 0; x < backtrackingChangesSteps.length; x++) {
       setTimeout(
         (y) => {
@@ -43,7 +68,7 @@ const Buttons = () => {
           let { rowIndex, cellIndex, value } = backtrackingChangesSteps[y];
           dispatch(handleUpdateCell(value, rowIndex, cellIndex));
         },
-        x * backTrackingSpeed + 1,
+        x * backtrackingChangesSteps.length * Math.round(1 / backTrackingSpeed),
         x
       ); // we're passing x
     }
@@ -76,63 +101,70 @@ const Buttons = () => {
   return (
     <>
       <Row className='buttons'>
-        <Col>
-          <Button
-            variant='primary'
-            onClick={async () => await makeRequestForNewGame()}
-          >
-            New
-          </Button>
+        <Col className={classes.buttonCol}>
+          <Dropdown as={ButtonGroup}>
+            <Button
+              variant='outline-dark'
+              onClick={async (eventKey) =>
+                await makeRequestForNewGame(eventKey)
+              }
+            >
+              New
+            </Button>
+            <Dropdown.Toggle
+              split
+              variant='outline-dark'
+              id='dropdown-basic-button'
+            />
+            <Dropdown.Menu>
+              {DIFFICULTIES_MENU.map((difficulty, index) => {
+                return (
+                  <Dropdown.Item
+                    eventKey={index}
+                    onSelect={async (eventKey) =>
+                      await makeRequestForNewGame(eventKey)
+                    }
+                  >
+                    {difficulty}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
         </Col>
-        <Col>
-          <Button variant='secondary' onClick={() => resetBoard()}>
-            Reset
-          </Button>
+        <Col className={classes.buttonCol}>
+          <ButtonGroup>
+            <Button variant='outline-dark' onClick={() => undoAction()}>
+              Undo
+            </Button>
+            <Button variant='outline-dark' onClick={() => validateSolution()}>
+              Validate
+            </Button>
+            <Button variant='outline-dark' onClick={() => resetBoard()}>
+              Reset
+            </Button>
+            <Button variant='outline-dark' onClick={() => solveInstantly()}>
+              Solve
+            </Button>
+            <Button
+              size='md'
+              variant='outline-dark'
+              onClick={() => backTrack()}
+            >
+              Backtrack
+            </Button>
+          </ButtonGroup>
         </Col>
-        <Col>
-          <Button variant='dark' onClick={() => solveInstantly()}>
-            Solve Instantly
-          </Button>
-        </Col>
-        <Col>
-          <Button variant='primary' onClick={() => validateSolution()}>
-            Validate
-          </Button>
-        </Col>
-        <Col>
-          <Button variant='primary' onClick={() => undoAction()}>
-            Undo
-          </Button>
-        </Col>
-        <Col>
-          <DropdownButton id='dropdown-basic-button' title={difficulty}>
-            {DIFFICULTIES_MENU.map((difficulty, index) => {
-              return (
-                <Dropdown.Item
-                  eventKey={index}
-                  onSelect={(eventKey) => setDifficulty(eventKey)}
-                >
-                  {difficulty}
-                </Dropdown.Item>
-              );
-            })}
-          </DropdownButton>
-        </Col>
-      </Row>
-      <Row className='buttons'>
-        <Col>
+        <Col className={classes.buttonCol}>
+          <span>Speed :</span>
           <Slider
             aria-label='custom thumb label'
             min={1}
-            max={100}
-            defaultValue={50}
+            max={10}
+            defaultValue={5}
             onChange={(e, val) => backTrackSpeedChange(val)}
+            className={classes.slider}
           />
-        </Col>
-        <Col>
-          <Button variant='dark' onClick={() => backTrack()}>
-            BackTrack
-          </Button>
         </Col>
       </Row>
     </>

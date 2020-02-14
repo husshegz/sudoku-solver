@@ -42,7 +42,9 @@ export const sanitizeResetBoardState = (ogBoard) => {
     newOgBoard = JSON.parse(JSON.stringify(ogBoard));
   }
   return {
-    board: newOgBoard
+    board: newOgBoard,
+    history: INITIAL_STATE.history,
+    isSolutionValid: INITIAL_STATE.isSolutionValid
   };
 };
 
@@ -73,12 +75,15 @@ export const sanitizeStateToValidateSolution = (board, solution) => {
 };
 
 export const sanitizeStateUndoMove = (history) => {
-  const previousBoard = history[history.length - 1];
-  const newHistory = history.slice(0, history.length - 1);
-  return {
-    history: newHistory,
-    board: previousBoard
-  };
+  if (history && history.length) {
+    const previousBoard = history[history.length - 1];
+    const newHistory = history.slice(0, history.length - 1);
+    return {
+      history: newHistory,
+      board: previousBoard
+    };
+  }
+  return {};
 };
 
 export const sanitizeStateBackTrackingSpeed = (payload) => {

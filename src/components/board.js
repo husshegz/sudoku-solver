@@ -16,11 +16,11 @@ const useStyles = makeStyles({
   input: {
     width: '100%',
     height: '100%',
-    padding: 0,
-    color: 'blue',
+    padding: '0.75rem',
+    backgroundColor: 'white',
+    color: '#282c34',
     textAlign: 'center',
     border: 'none',
-    backgroundColor: 'white',
     '&&:disabled': {
       fontWeight: 'bold',
       fontSize: '1.2em',
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
   },
   cell: {
     borderStyle: 'solid',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: 'black',
     padding: 0,
     '&&&:focus': {
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
   },
   cellThird: {
     borderStyle: 'solid',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: 'black',
     borderRightStyle: 'solid',
     borderRightWidth: 4,
@@ -49,7 +49,7 @@ const useStyles = makeStyles({
     padding: 0,
     '&&&:focus': {
       borderStyle: 'solid',
-      borderWidth: 0.5,
+      borderWidth: 1,
       borderColor: 'black',
       borderRightStyle: 'solid',
       borderRightWidth: 4,
@@ -59,7 +59,7 @@ const useStyles = makeStyles({
   },
   rowThird: {
     borderStyle: 'solid',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: 'black',
     borderBottomStyle: 'solid',
     borderBottomWidth: 4,
@@ -87,7 +87,14 @@ const Board = () => {
     const styleOfInput = classes.input;
     const isCellPlayable = ogBoard[rowIndex][cellIndex] === 0;
     return (
-      <td key={`${rowIndex}-${cellIndex}`} className={styleOfCell}>
+      <td
+        key={`${rowIndex}-${cellIndex}`}
+        className={styleOfCell}
+        style={{
+          alignText: 'center',
+          padding: 0
+        }}
+      >
         <input
           value={cellValue ? cellValue : '_'}
           className={styleOfInput}
@@ -120,7 +127,6 @@ const Board = () => {
     <>
       <Row className='board'>
         <Col>
-          <p>Click on the boxes to solve</p>
           <Table
             responsive='xl'
             style={{
